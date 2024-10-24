@@ -1,4 +1,5 @@
 ﻿using ConsoleDelivery.Models;
+using ConsoleDelivery.Models.Logs.LogsModels;
 using Microsoft.EntityFrameworkCore;
 using System;
 
@@ -8,53 +9,83 @@ namespace ConsoleDelivery
     {
         public static void Main()
         {
-            DataFilter();
+            AddDelivery();
         }
 
 
 
 
 
-        private static void DataFilter()
+        private static void AddDelivery()
         {
-            int deliveryId = 0;
-            double deliveryWeight = 0;
-            string? regionName = null;
-            int regionId = 0;
-            bool validationFaield = false;
+            int deliveryId;
+            double deliveryWeight;
+            string? regionName;
+            int regionId;
+            bool IsValidationFaield = false;
 
             DateTime deliveryDateTime = DateTime.Now;
-            Delivery delivery = new Delivery();
+            Delivery delivery = new();
             List<Region> regions = [];
+            LoggerValidation loggerValidation = new();
+            List<Validation> validations = [];
+
 
 
 
             Console.Write("Введите номер заказа: ");
             while (!int.TryParse(Console.ReadLine(), out deliveryId))
             {
-                validationFaield = true;
+                IsValidationFaield = true;
                 Console.Write("Пожалуста, введите натуралне число: ");
-                LoggerValidation loggerValidationFailed = new LoggerValidation(
-                    TypeOfOperation.DeliveryIdInput,
-                    validationFaield,
-                    DateTime.Now);
-                loggerValidationFailed.Log();
-            }
-            Console.Write($"{validationFaield}");
 
+                validations.Add(new Validation(TypeOfOperation.DeliveryIdInput, IsValidationFaield,
+                    $"Было введено значение, которое не является натуральном числом)"));
+                loggerValidation.Logs = validations;
+                loggerValidation.Log();
+            }
             while (deliveryId <= 0)
             {
+                IsValidationFaield = true;
                 Console.Write("Пожалуста, введите положительное число отличное от нуля: ");
+
+                validations.Add(new Validation(TypeOfOperation.DeliveryIdInput, IsValidationFaield,
+                    "Введеный Id доставки был ниже нуля"));
+                loggerValidation.Logs = validations;
+                loggerValidation.Log();
+
                 while (!int.TryParse(Console.ReadLine(), out deliveryId))
+                {
+                    Console.Write("Введите число: ");
+
+                    validations.Add(new Validation(TypeOfOperation.DeliveryIdInput, true,
+                    $"Было введено значение, которое не является натуральном числом)"));
+                    loggerValidation.Logs = validations;
+                    loggerValidation.Log();
+                }
+            }
+            while (CheckIdDelivery(deliveryId))
+            {
+                Console.Write("Такой номер заказа уже существует. Пожалуйста, выбирете другой: ");
+                while(!int.TryParse(Console.ReadLine(), out deliveryId))
                 {
                     Console.Write("Введите число: ");
                 }
             }
 
+            validations.Add(new Validation(TypeOfOperation.DeliveryIdInput, false,
+                "Был введен корректный Id"));
+            loggerValidation.Logs = validations;
+            loggerValidation.Log();
+
             Console.Write("Введите вес заказа (в кг): ");
             while (!double.TryParse(Console.ReadLine(), out deliveryWeight))
             {
+                IsValidationFaield = true;
                 Console.Write("Пожалуста, введите число: ");
+                validations.Add(new Validation(TypeOfOperation.DeliveryWeightInput, IsValidationFaield,
+                    "Введенное значение для веса доставки не является натуральным числом"));
+                loggerValidation.Logs = validations;
             }
 
             while (deliveryWeight <= 0)
@@ -90,25 +121,26 @@ namespace ConsoleDelivery
                 regionName = Console.ReadLine();
             }
 
-            using (ApplicationContext db = new())
+            while (!CheckRegion(regionName, out regions))
             {
-                while (!CheckRegion(regionName, out regions))
-                {
-                    Console.Write("Такого региона нет, пожалуйста укажите действительный регион: ");
-                    regionName = Console.ReadLine();
-                }
-
-
-                foreach (Region region in regions)
-                {
-                    regionId = region.Id;
-                    delivery.Region = region;
-                }
+                Console.Write("Такого региона нет, пожалуйста укажите действительный регион: ");
+                regionName = Console.ReadLine();
+                validations.Add(new Validation(TypeOfOperation.DeliveryRegionNameInput,
+                    IsValidationFaield, "Введенного региона нет в базе данных"));
+                loggerValidation.Logs = validations;
+                loggerValidation.Log();
             }
 
-            bool CheckRegion(string regionName, out List<Region> regions)
+
+            foreach (Region region in regions)
             {
-                using (ApplicationContext db = new())
+                regionId = region.Id;
+                delivery.Region = region;
+            }
+
+            static bool CheckRegion(string regionName, out List<Region> regions)
+            {
+                using(ApplicationContext db = new())
                 {
                     try
                     {
@@ -119,10 +151,31 @@ namespace ConsoleDelivery
                     }
                     catch
                     {
-                        regions = null;
+                        regions = [];
                         return false;
                     }
                 }
+            }
+        }
+
+        public static bool CheckIdDelivery(int deliveryId)
+        {
+            bool isDeliveryIdExists = false;
+            using (ApplicationContext db = new())
+            {
+                foreach (Delivery delivery in db.Deliveries.ToList())
+                {
+                    if (deliveryId == delivery.Id)
+                    {
+                        isDeliveryIdExists = true;
+                    }
+                    else
+                    {
+                        isDeliveryIdExists = false;
+                    }
+                }
+
+                return isDeliveryIdExists;
             }
         }
     }
