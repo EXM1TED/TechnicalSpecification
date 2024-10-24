@@ -1,0 +1,9 @@
+[
+  {
+    "DateTimeOfValidation": "2024-10-24T20:25:57.5485057+03:00",
+    "Operation": 1,
+    "ValidationFailed": false,
+    "Status": "OK",
+    "Discription": "Был введен корректный Id"
+  }
+]
