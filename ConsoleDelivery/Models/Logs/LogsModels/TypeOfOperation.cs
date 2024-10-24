@@ -12,5 +12,6 @@ namespace ConsoleDelivery.Models.Logs.LogsModels
         DeliveryWeightInput = 2,
         DeliveryDateTimeInput = 3,
         DeliveryRegionNameInput = 4,
+        DeliveryChooseAction = 5,
     }
 }
