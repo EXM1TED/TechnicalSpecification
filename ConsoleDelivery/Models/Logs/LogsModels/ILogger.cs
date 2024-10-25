@@ -9,7 +9,7 @@ namespace ConsoleDelivery.Models.Logs.LogsModels
 {
     public interface ILogger
     {
-        public IEnumerable<Validation> Logs { get; set; } 
+        public IEnumerable<Validation> Logs { get; set; }
         void Log();
     }
 }

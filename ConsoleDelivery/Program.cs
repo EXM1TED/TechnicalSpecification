@@ -7,23 +7,23 @@ namespace ConsoleDelivery
 {
     public class Programm
     {
-        private static LoggerValidation LoggerValidation { get; set; } = new();   
-        private static List<Validation> Validations { get; set; } = [];
+        private static LoggerValidation _loggerValidation { get; set; } = new();   
+        private static List<Validation> _validations { get; set; } = [];
 
         public static void Main()
         {
             ShowActions();
 
-            int operation;
+            int choosedOperation;
 
-            while(!int.TryParse(Console.ReadLine(), out operation))
+            while(!int.TryParse(Console.ReadLine(), out choosedOperation))
             {
                 Console.Write("Введите число: ");
-                Validations.Add(new Validation(TypeOfOperation.DeliveryChooseAction,
+                _validations.Add(new Validation(TypeOfOperation.DeliveryChooseAction,
                     true, "При выборе операции, было введено не число"));
             }
 
-            ChooseAction(operation);
+            ChooseAction(choosedOperation);
         }
 
         private static void AddDelivery()
@@ -45,28 +45,28 @@ namespace ConsoleDelivery
             {
                 Console.Write("Пожалуста, введите натуралне число: ");
 
-                Validations.Add(new Validation(TypeOfOperation.DeliveryIdInput, true,
+                _validations.Add(new Validation(TypeOfOperation.DeliveryIdInput, true,
                     $"Было введено значение, которое не является натуральном числом)"));
-                LoggerValidation.Logs = Validations;
-                LoggerValidation.Log();
+                _loggerValidation.Logs = _validations;
+                _loggerValidation.Log();
             }
             while (deliveryId <= 0)
             {
                 Console.Write("Пожалуста, введите положительное число отличное от нуля: ");
 
-                Validations.Add(new Validation(TypeOfOperation.DeliveryIdInput, true,
+                _validations.Add(new Validation(TypeOfOperation.DeliveryIdInput, true,
                     "Введеный Id доставки был ниже нуля"));
-                LoggerValidation.Logs = Validations;
-                LoggerValidation.Log();
+                _loggerValidation.Logs = _validations;
+                _loggerValidation.Log();
 
                 while (!int.TryParse(Console.ReadLine(), out deliveryId))
                 {
                     Console.Write("Введите число: ");
 
-                    Validations.Add(new Validation(TypeOfOperation.DeliveryIdInput, true,
+                    _validations.Add(new Validation(TypeOfOperation.DeliveryIdInput, true,
                     $"Было введено значение, которое не является натуральном числом)"));
-                    LoggerValidation.Logs = Validations;
-                    LoggerValidation.Log();
+                    _loggerValidation.Logs = _validations;
+                    _loggerValidation.Log();
                 }
             }
             while (CheckIdDelivery(deliveryId))
@@ -76,24 +76,24 @@ namespace ConsoleDelivery
                 {
                     Console.Write("Введите число: ");
                 }
-                Validations.Add(new Validation(TypeOfOperation.DeliveryIdInput, false,
+                _validations.Add(new Validation(TypeOfOperation.DeliveryIdInput, false,
                     "Введенный Id уже указан"));
-                LoggerValidation.Logs = Validations;
-                LoggerValidation.Log();
+                _loggerValidation.Logs = _validations;
+                _loggerValidation.Log();
             }
 
-            Validations.Add(new Validation(TypeOfOperation.DeliveryIdInput, false,
+            _validations.Add(new Validation(TypeOfOperation.DeliveryIdInput, false,
                 "Был введен корректный Id"));
-            LoggerValidation.Logs = Validations;
-            LoggerValidation.Log();
+            _loggerValidation.Logs = _validations;
+            _loggerValidation.Log();
 
             Console.Write("Введите вес заказа (в кг): ");
             while (!double.TryParse(Console.ReadLine(), out deliveryWeight))
             {
                 Console.Write("Пожалуста, введите число: ");
-                Validations.Add(new Validation(TypeOfOperation.DeliveryWeightInput, true,
+                _validations.Add(new Validation(TypeOfOperation.DeliveryWeightInput, true,
                     "Введенное значение для веса доставки не является натуральным числом"));
-                LoggerValidation.Logs = Validations;
+                _loggerValidation.Logs = _validations;
             }
 
             while (deliveryWeight <= 0)
@@ -124,7 +124,6 @@ namespace ConsoleDelivery
             regionName = Console.ReadLine();
             while (string.IsNullOrEmpty(regionName))
             {
-                bool validationFailed = true;
                 Console.Write("Пожалуйста, введите название региона: ");
                 regionName = Console.ReadLine();
             }
@@ -133,10 +132,10 @@ namespace ConsoleDelivery
             {
                 Console.Write("Такого региона нет, пожалуйста укажите действительный регион: ");
                 regionName = Console.ReadLine();
-                Validations.Add(new Validation(TypeOfOperation.DeliveryRegionNameInput,
+                _validations.Add(new Validation(TypeOfOperation.DeliveryRegionNameInput,
                     true, "Введенного региона нет в базе данных"));
-                LoggerValidation.Logs = Validations;
-                LoggerValidation.Log();
+                _loggerValidation.Logs = _validations;
+                _loggerValidation.Log();
             }
 
 
