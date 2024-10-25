@@ -17,9 +17,9 @@ namespace ConsoleDelivery.Models.Logs.LogsModels
         {
             await using(StreamWriter sw = new("C:\\Users\\chest\\OneDrive\\Рабочий стол\\Тестовое задание\\TechnicalSpecification\\ConsoleDelivery\\Models\\Logs\\LogsFiles\\LogsValid.json"))
             {
-                await using(JsonTextWriter jsonWriter = new JsonTextWriter(sw))
+                await using(JsonTextWriter jsonWriter = new(sw))
                 {
-                    JsonSerializer jsonSerializer = new JsonSerializer();
+                    JsonSerializer jsonSerializer = new();
                     jsonSerializer.Formatting = Formatting.Indented;
                     jsonSerializer.Serialize(sw, Logs);
                 }

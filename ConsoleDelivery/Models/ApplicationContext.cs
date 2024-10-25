@@ -28,7 +28,8 @@ namespace ConsoleDelivery.Models
             {
                 model.ToTable("Regions");
                 model.Property(r => r.Id).HasColumnName("RegionId");
-                model.Property(r => r.RegionName).HasColumnName("RegionName");
+                model.Property(r => r.RegionName)
+                .HasColumnName("RegionName");
             });
 
             modelBuilder.Entity<Delivery>(model => 

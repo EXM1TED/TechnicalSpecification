@@ -13,5 +13,6 @@ namespace ConsoleDelivery.Models.Logs.LogsModels
         DeliveryDateTimeInput = 3,
         DeliveryRegionNameInput = 4,
         DeliveryChooseAction = 5,
+        ChoosedSecondOperation = 6,
     }
 }

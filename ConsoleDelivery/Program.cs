@@ -1,22 +1,30 @@
 ﻿using ConsoleDelivery.Models;
 using ConsoleDelivery.Models.Logs.LogsModels;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyModel.Resolution;
 using System;
 
 namespace ConsoleDelivery
 {
-    public class Programm
+    public class Programm 
     {
-        private static LoggerValidation _loggerValidation { get; set; } = new();   
+        private static LoggerValidation _loggerValidation { get; set; } = new(); 
         private static List<Validation> _validations { get; set; } = [];
+        private static List<Region> _regions { get; set; } = [];
 
+        public Programm()
+        {
+
+        }
+        
         public static void Main()
         {
+
             ShowActions();
 
             int choosedOperation;
 
-            while(!int.TryParse(Console.ReadLine(), out choosedOperation))
+            while (!int.TryParse(Console.ReadLine(), out choosedOperation))
             {
                 Console.Write("Введите число: ");
                 _validations.Add(new Validation(TypeOfOperation.DeliveryChooseAction,
@@ -72,7 +80,7 @@ namespace ConsoleDelivery
             while (CheckIdDelivery(deliveryId))
             {
                 Console.Write("Такой номер заказа уже существует. Пожалуйста, выбирете другой: ");
-                while(!int.TryParse(Console.ReadLine(), out deliveryId))
+                while (!int.TryParse(Console.ReadLine(), out deliveryId))
                 {
                     Console.Write("Введите число: ");
                 }
@@ -132,6 +140,7 @@ namespace ConsoleDelivery
             {
                 Console.Write("Такого региона нет, пожалуйста укажите действительный регион: ");
                 regionName = Console.ReadLine();
+
                 _validations.Add(new Validation(TypeOfOperation.DeliveryRegionNameInput,
                     true, "Введенного региона нет в базе данных"));
                 _loggerValidation.Logs = _validations;
@@ -141,62 +150,42 @@ namespace ConsoleDelivery
 
             foreach (Region region in regions)
             {
-                regionId = region.Id;
-                delivery.Region = region;
+                delivery.RegionId = region.Id;
             }
+            delivery.Weight = deliveryWeight;
+            delivery.TimeOfDelivery = deliveryDateTime;
 
-            static bool CheckRegion(string regionName, out List<Region> regions)
-            {
-                using(ApplicationContext db = new())
-                {
-                    try
-                    {
-                         regions = db.Regions
-                            .FromSql($"SELECT RegionId FROM Regions WHERE RegionName = '{regionName}'")
-                            .ToList();
-                         return true;
-                    }
-                    catch
-                    {
-                        regions = [];
-                        return false;
-                    }
-                }
-            }
-        }
-
-        public static bool CheckIdDelivery(int deliveryId)
-        {
-            bool isDeliveryIdExists = false;
             using (ApplicationContext db = new())
             {
-                foreach (Delivery delivery in db.Deliveries.ToList())
-                {
-                    if (deliveryId == delivery.Id)
-                    {
-                        isDeliveryIdExists = true;
-                    }
-                    else
-                    {
-                        isDeliveryIdExists = false;
-                    }
-                }
-
-                return isDeliveryIdExists;
+                db.Deliveries.Add(delivery);
+                db.SaveChanges();
             }
+
         }
 
         private static void AddRegion()
         {
-            Console.WriteLine("Для начала, необходимо добавить регион");
-            Region region = new Region();
+            Console.WriteLine();
+            Region region = new();
 
             string regionName = string.Empty;
 
             Console.Write("Введите название региона: ");
-            regionName = Console.ReadLine();
+            regionName = Console.ReadLine() ?? string.Empty;
+            while (string.IsNullOrEmpty(regionName))
+            {
+                Console.Write("Это поле не должно быть пустым.Пожалуста, укажите название региона: ");
+                regionName = Console.ReadLine() ?? string.Empty;
 
-            using(ApplicationContext db = new())
+                _validations.Add(new Validation(TypeOfOperation.DeliveryRegionNameInput,
+                    true, "Название региона не было введено"));
+                _loggerValidation.Logs = _validations;
+                _loggerValidation.Log();
+            }
+
+            region.RegionName = regionName;
+
+            using (ApplicationContext db = new())
             {
                 db.Regions.Add(region);
                 db.SaveChanges();
@@ -208,20 +197,76 @@ namespace ConsoleDelivery
             switch (choosedAction)
             {
                 case 1:
-                    AddRegion();
+                    if(GetRegionsList().Count == 0)
+                    {
+                        Console.WriteLine("Спиоск регионов пустой, сначала нужно добавить новый регион.");
+                        AddRegion();
+                    }
+                    else
+                    {
+                        Console.Write("Если необходиом добавить новый регион, выбирете команду 1, иначе 0: ");
+                        int choosedAct;
+                        while(!int.TryParse(Console.ReadLine(), out choosedAct))
+                        {
+                            Console.Write("Введите число: ");
+                        }
+                        switch (choosedAct)
+                        {
+                            case 1:
+                                AddRegion();
+                            break;
+                            case 0:
+                                break;
+                        }
+                    }
                     AddDelivery();
                     break;
-
+                case 2:
+                    
+                    break;
                 default:
                     Console.WriteLine("Такой операции не существует");
                     break;
             }
+            Main();
         }
 
         private static void ShowActions()
         {
             Console.WriteLine("1. Добавить новый заказ");
             Console.WriteLine("2. Отфильтровать данные");
+        }
+
+        public static bool CheckRegion(string regionName, out List<Region> regions)
+        {
+            using (ApplicationContext db = new())
+            {
+                regions = db.Regions
+                    .FromSql($"SELECT RegionId, RegionName FROM Regions WHERE RegionName = {regionName}")
+                    .ToList();
+                return regions.Count > 0 ? true : false ;
+            }
+        }
+
+        public static bool CheckIdDelivery(int deliveryId)
+        {
+            using (ApplicationContext db = new())
+            {
+                  List<Delivery> deliveries = db.Deliveries
+                    .Where(d => d.Id == deliveryId)
+                    .ToList();
+
+                  return deliveries.Count > 0 ? true : false;
+            }
+        }
+
+        private static List<Region> GetRegionsList()
+        {
+            List <Region> regions = new();
+            using(ApplicationContext db = new())
+            {
+                return regions = db.Regions.ToList();
+            }
         }
     }
 }
