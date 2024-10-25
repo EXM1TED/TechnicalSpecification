@@ -72,7 +72,7 @@ namespace ConsoleDelivery.Models.MainOperations.FilterData
                 FiltredData filtredData = new FiltredData(regionName,
                 firsDeliveryDateTime, deliveries);
 
-                await using (StreamWriter sw = new("C:\\Users\\chest\\OneDrive\\Рабочий стол\\Тестовое задание\\TechnicalSpecification\\ConsoleDelivery\\Models\\MainOperations\\FilterData\\FiltredData.json"))
+                await using (StreamWriter sw = new("C:\\Users\\chest\\OneDrive\\Рабочий стол\\Тестовое задание\\TechnicalSpecification\\ConsoleDelivery\\LogsFiles\\FiltredData.json"))
                 {
                     await using (JsonTextWriter jsonWriter = new(sw))
                     {

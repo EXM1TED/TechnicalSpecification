@@ -14,7 +14,7 @@ namespace ConsoleDelivery.Models.Logs.LogsModels.LogOperations
 
         public async static void Log()
         {
-            await using (StreamWriter sw = new("C:\\Users\\chest\\OneDrive\\Рабочий стол\\Тестовое задание\\TechnicalSpecification\\ConsoleDelivery\\Models\\Logs\\LogsFiles\\OperationsValid.json"))
+            await using (StreamWriter sw = new("C:\\Users\\chest\\OneDrive\\Рабочий стол\\Тестовое задание\\TechnicalSpecification\\ConsoleDelivery\\LogsFiles\\OperationsValid.json"))
             {
                 await using (JsonTextWriter jsonWriter = new(sw))
                 {
