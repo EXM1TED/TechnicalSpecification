@@ -5,13 +5,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ConsoleDelivery.Models.Logs.LogsModels.LogOperations;
 
-namespace ConsoleDelivery.Models
+namespace ConsoleDelivery.Models.MainOperations.AddData
 {
     public class AddRegion
     {
         private static LoggerValidation _loggerValidation { get; set; } = new();
         private static Validation _validation { get; set; } = new(_loggerValidation);
+        private static LoggerOperation _loggerOperation { get; set; } = new();
+        private static Operation _operation { get; set; } = new(_loggerOperation);
         public static void CreateNewRegion()
         {
             Console.WriteLine();
@@ -30,7 +33,7 @@ namespace ConsoleDelivery.Models
                 _validation.SetAndLogValidation(new ValidationArgs(TypeOfOperation.DeliveryRegionNameInput,
                     true, "Название региона не было введено"));
 
-                while(Region.CheckRegion(regionName))
+                while (Region.CheckRegion(regionName))
                 {
                     Console.Write("Такое имя региона уже есть. Пожалуйста, ввидете другое: ");
                     regionName = Console.ReadLine();
@@ -46,6 +49,8 @@ namespace ConsoleDelivery.Models
             {
                 db.Regions.Add(region);
                 db.SaveChanges();
+                _operation.SetAndLogOperation(new OperationArgs(TypeOfOperation.SendNewRegionToDataBase,
+                   $"Был добавлен новый регион с названием: {region.RegionName}", null, region));
             }
         }
     }

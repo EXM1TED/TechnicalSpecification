@@ -16,12 +16,14 @@ namespace ConsoleDelivery.Models.Logs.LogsModels.LogOperations
         public string? Discription { get; set; }
 
         public OperationArgs(TypeOfOperation type,
-            bool validationFailed,
-            string discription)
+            string discription,
+            Delivery? delivery, Region? region)
         {
             DateTimeOfValidation = DateTime.Now;
             Operation = type;
             Discription = discription;
+            Delivery = delivery;
+            Region = region;
         }
     }
 }

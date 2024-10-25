@@ -2,6 +2,8 @@
 using ConsoleDelivery.Models.Logs.LogsModels;
 using ConsoleDelivery.Models.Logs.LogsModels.LogOperations;
 using ConsoleDelivery.Models.Logs.LogsModels.LogValidations;
+using ConsoleDelivery.Models.MainOperations.AddData;
+using ConsoleDelivery.Models.MainOperations.FilterData;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyModel.Resolution;
 using System;
@@ -32,7 +34,7 @@ namespace ConsoleDelivery
                 false, "Операция была выбрана без ошибок"));
 
             _operation.SetAndLogOperation(new OperationArgs(TypeOfOperation.ChooseOperation,
-                ))
+                $"Была выбрана операция: {choosedOperation}", null, null));
             ChooseAction(choosedOperation);
         }
 
@@ -67,6 +69,8 @@ namespace ConsoleDelivery
                         {
                             Console.Write("Введите число: ");
                         }
+                        _operation.SetAndLogOperation(new OperationArgs(TypeOfOperation.ChoosedSecondOperation,
+                            $"Была выбрана операция {choosedAct}", null, null));
                         switch (choosedAct)
                         {
                             case 1:
@@ -79,7 +83,7 @@ namespace ConsoleDelivery
                     AddDelivery.CreateNewDelivery();
                     break;
                 case 2:
-
+                    FilterData.DataFilter();
                     break;
                 default:
                     Console.WriteLine("Такой операции не существует");

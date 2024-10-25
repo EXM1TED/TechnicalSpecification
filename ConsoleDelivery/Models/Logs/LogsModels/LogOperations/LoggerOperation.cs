@@ -21,6 +21,7 @@ namespace ConsoleDelivery.Models.Logs.LogsModels.LogOperations
                     JsonSerializer jsonSerializer = new();
                     jsonSerializer.Formatting = Formatting.Indented;
                     jsonSerializer.NullValueHandling = NullValueHandling.Ignore;
+                    jsonSerializer.DefaultValueHandling = DefaultValueHandling.Ignore;
                     jsonSerializer.Serialize(sw, Logs);
                 }
             }

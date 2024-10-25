@@ -10,6 +10,7 @@ namespace ConsoleDelivery.Models.Logs.LogsModels.LogValidations
     {
         public DateTime DateTimeOfValidation { get; set; }
         public TypeOfOperation Operation { get; set; }
+        bool ValidationFailed { get; set; }
         public string? Status { get; set; }
         public string? Discription { get; set; }
 

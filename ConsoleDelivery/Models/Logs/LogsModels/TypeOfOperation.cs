@@ -15,5 +15,7 @@ namespace ConsoleDelivery.Models.Logs.LogsModels
         DeliveryChooseAction = 5,
         ChooseOperation = 6,
         ChoosedSecondOperation = 7,
+        SendNewRegionToDataBase = 8,
+        SendNewDeliveryToDataBase = 9,
     }
 }

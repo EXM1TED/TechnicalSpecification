@@ -5,13 +5,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ConsoleDelivery.Models.Logs.LogsModels.LogOperations;
 
-namespace ConsoleDelivery.Models
+namespace ConsoleDelivery.Models.MainOperations.AddData
 {
     public class AddDelivery
     {
         private static LoggerValidation _loggerValidation { get; set; } = new();
         private static Validation _validation { get; set; } = new(_loggerValidation);
+        private static LoggerOperation _loggerOperation { get; set; } = new();
+        private static Operation _operation { get; set; } = new(_loggerOperation);
 
         public static void CreateNewDelivery()
         {
@@ -142,6 +145,9 @@ namespace ConsoleDelivery.Models
             {
                 db.Deliveries.Add(delivery);
                 db.SaveChanges();
+
+                _operation.SetAndLogOperation(new OperationArgs(TypeOfOperation.SendNewDeliveryToDataBase,
+                    $"Был добавлен новый заказ", delivery, null));
             }
         }
     }

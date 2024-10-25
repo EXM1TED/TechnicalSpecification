@@ -1,0 +1,13 @@
+{
+  "RegionName": "Регион 1",
+  "FirstDeliveryDateTime": "2024-11-15T14:40:00",
+  "Deliveries": [
+    {
+      "Id": 2,
+      "Weight": 3.0,
+      "RegionId": 1,
+      "Region": null,
+      "TimeOfDelivery": "2024-11-15T14:40:00"
+    }
+  ]
+}

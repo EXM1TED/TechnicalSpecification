@@ -1,9 +1,8 @@
 [
   {
-    "DateTimeOfValidation": "2024-10-25T18:53:50.8333445+03:00",
-    "Operation": 1,
-    "ValidationFailed": false,
+    "DateTimeOfValidation": "2024-10-25T21:57:25.2615051+03:00",
+    "Operation": 6,
     "Status": "OK",
-    "Discription": "Был введен корректный Id"
+    "Discription": "Операция была выбрана без ошибок"
   }
 ]
