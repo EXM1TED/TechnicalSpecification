@@ -34,12 +34,6 @@ namespace ConsoleDelivery.Models.MainOperations.FilterData
 
                 _validation.SetAndLogValidation(new ValidationArgs(TypeOfOperation.DeliveryRegionNameInput,
                     true, "Название региона не было введено"));
-
-                while (Region.CheckRegion(regionName))
-                {
-                    Console.Write("Такое имя региона уже есть. Пожалуйста, ввидете другое: ");
-                    regionName = Console.ReadLine();
-                }
             }
 
             Console.Write("Введите время первой доставки заказа: ");
@@ -88,7 +82,7 @@ namespace ConsoleDelivery.Models.MainOperations.FilterData
                     }
                 }
 
-                Console.WriteLine("Данные выгружены в Json формате");
+                
             }
             else
             {

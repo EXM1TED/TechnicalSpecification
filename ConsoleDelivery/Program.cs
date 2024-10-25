@@ -24,6 +24,7 @@ namespace ConsoleDelivery
 
             int choosedOperation;
 
+            Console.WriteLine();
             while (!int.TryParse(Console.ReadLine(), out choosedOperation))
             {
                 Console.Write("Введите число: ");
@@ -85,8 +86,12 @@ namespace ConsoleDelivery
                 case 2:
                     FilterData.DataFilter();
                     break;
+                case 3:
+
                 default:
                     Console.WriteLine("Такой операции не существует");
+                    Console.WriteLine("Данные выгружены в Json формате");
+                    Console.WriteLine();
                     break;
             }
             Console.WriteLine();
