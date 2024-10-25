@@ -13,5 +13,17 @@ namespace ConsoleDelivery.Models
         public int RegionId { get; set; } 
         public Region? Region { get; set; }
         public DateTime TimeOfDelivery { get; set; }
+
+        public bool CheckIdDelivery(int deliveryId)
+        {
+            using (ApplicationContext db = new())
+            {
+                List<Delivery> deliveries = db.Deliveries
+                  .Where(d => d.Id == deliveryId)
+                  .ToList();
+
+                return deliveries.Count > 0 ? true : false;
+            }
+        }
     }
 }

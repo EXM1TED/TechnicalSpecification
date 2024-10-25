@@ -1,23 +1,9 @@
 [
   {
-    "DateTimeOfValidation": "2024-10-25T15:51:22.5600578+03:00",
+    "DateTimeOfValidation": "2024-10-25T18:53:50.8333445+03:00",
     "Operation": 1,
     "ValidationFailed": false,
     "Status": "OK",
     "Discription": "Был введен корректный Id"
-  },
-  {
-    "DateTimeOfValidation": "2024-10-25T15:51:53.6407808+03:00",
-    "Operation": 1,
-    "ValidationFailed": false,
-    "Status": "OK",
-    "Discription": "Был введен корректный Id"
-  },
-  {
-    "DateTimeOfValidation": "2024-10-25T15:52:16.2966607+03:00",
-    "Operation": 4,
-    "ValidationFailed": true,
-    "Status": "Error",
-    "Discription": "Введенного региона нет в базе данных"
   }
 ]

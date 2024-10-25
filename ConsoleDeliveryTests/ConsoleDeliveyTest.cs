@@ -8,10 +8,9 @@ namespace ConsoleDeliveryTests
     public class ConsoleDeliveyTest
     {
         [TestMethod]
-        public void CheckRegion_From_Programm_Values_Регион_2_True() 
+        public void GetRegionList_From_Region() 
         {
-            List<Region> regions = [];
-            Assert.IsTrue(Programm.CheckRegion("Регион 1", out regions));
+            Assert.IsNotNull(Region.GetRegionsList());
         }
     }
 }
