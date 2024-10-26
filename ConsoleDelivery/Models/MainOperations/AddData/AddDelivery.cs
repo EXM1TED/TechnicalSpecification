@@ -37,21 +37,7 @@ namespace ConsoleDelivery.Models.MainOperations.AddData
                 _validation.SetAndLogValidation(new ValidationArgs(TypeOfOperation.DeliveryIdInput, true,
                     $"Было введено значение, которое не является натуральном числом)"));
             }
-            while (deliveryId <= 0)
-            {
-                Console.Write("Пожалуста, введите положительное число отличное от нуля: ");
-
-                _validation.SetAndLogValidation(new ValidationArgs(TypeOfOperation.DeliveryIdInput, true,
-                    "Введеный Id доставки был ниже нуля"));
-
-                while (!int.TryParse(Console.ReadLine(), out deliveryId))
-                {
-                    Console.Write("Введите число: ");
-
-                    _validation.SetAndLogValidation(new ValidationArgs(TypeOfOperation.DeliveryIdInput, true,
-                    $"Было введено значение, которое не является натуральном числом)"));
-                }
-            }
+            CheckIntPositive(deliveryId);
             while (delivery.CheckIdDelivery(deliveryId))
             {
                 Console.Write("Такой номер заказа уже существует. Пожалуйста, выбирете другой: ");
@@ -59,13 +45,14 @@ namespace ConsoleDelivery.Models.MainOperations.AddData
                 {
                     Console.Write("Введите число: ");
                 }
-
+                
                 _validation.SetAndLogValidation(new ValidationArgs(TypeOfOperation.DeliveryIdInput, false,
-                    "Введенный Id уже указан"));
+                    $"Введенный Id уже указан: {deliveryId}"));
+                CheckIntPositive(deliveryId);
             }
 
             _validation.SetAndLogValidation(new ValidationArgs(TypeOfOperation.DeliveryIdInput, false,
-                "Был введен корректный Id"));
+                $"Был введен корректный Id: {deliveryId}"));
 
             Console.Write("Введите вес заказа (в кг): ");
             while (!double.TryParse(Console.ReadLine(), out deliveryWeight))
@@ -73,7 +60,7 @@ namespace ConsoleDelivery.Models.MainOperations.AddData
                 Console.Write("Пожалуста, введите натуральное число: ");
 
                 _validation.SetAndLogValidation(new ValidationArgs(TypeOfOperation.DeliveryWeightInput, true,
-                    "Введенное значение для веса доставки не является натуральным числом"));
+                    $"Введенное значение для веса доставки не является натуральным числом: {deliveryWeight}"));
             }
 
             while (deliveryWeight <= 0)
@@ -81,7 +68,7 @@ namespace ConsoleDelivery.Models.MainOperations.AddData
                 Console.Write("Пожалуста, введите положительное число отличное от нуля: ");
 
                 _validation.SetAndLogValidation(new ValidationArgs(TypeOfOperation.DeliveryWeightInput, true,
-                    "Введенное значение для веса доставки не является натуральным числом"));
+                    $"Введенное значение для веса доставки не является натуральным числом: {deliveryWeight}"));
 
                 while (!double.TryParse(Console.ReadLine(), out deliveryWeight))
                 {
@@ -127,17 +114,18 @@ namespace ConsoleDelivery.Models.MainOperations.AddData
             while (!Region.CheckRegion(regionName, out regions))
             {
                 Console.Write("Такого региона нет, пожалуйста укажите действительный регион: ");
-                regionName = Console.ReadLine();
+                regionName = Console.ReadLine()!;
 
                 _validation.SetAndLogValidation(new ValidationArgs(TypeOfOperation.DeliveryRegionNameInput,
                     true, "Введенного региона нет в базе данных"));
             }
 
-
+         
             foreach (Region _region in regions)
             {
                 delivery.RegionId = _region.Id;
             }
+            delivery.Id = deliveryId;
             delivery.Weight = deliveryWeight;
             delivery.TimeOfDelivery = deliveryDateTime;
 
@@ -149,6 +137,25 @@ namespace ConsoleDelivery.Models.MainOperations.AddData
                 _operation.SetAndLogOperation(new OperationArgs(TypeOfOperation.SendNewDeliveryToDataBase,
                     $"Был добавлен новый заказ", delivery, null));
             }
+        }
+        private static int CheckIntPositive(int args)
+        {
+            while (args <= 0)
+            {
+                Console.Write("Пожалуста, введите положительное число отличное от нуля: ");
+
+                _validation.SetAndLogValidation(new ValidationArgs(TypeOfOperation.DeliveryIdInput, true,
+                    $"Введеный Id доставки был ниже нуля: {args}"));
+
+                while (!int.TryParse(Console.ReadLine(), out args))
+                {
+                    Console.Write("Введите число: ");
+
+                    _validation.SetAndLogValidation(new ValidationArgs(TypeOfOperation.DeliveryIdInput, true,
+                    $"Было введено значение, которое не является натуральном числом: {args})"));
+                }
+            }
+            return args;
         }
     }
 }

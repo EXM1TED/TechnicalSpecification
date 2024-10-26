@@ -14,7 +14,7 @@ namespace ConsoleDelivery.Models.MainOperations.FilterData
 {
     public class FilterData
     {
-        private static LoggerValidation _loggerValidation { get; set; } = new();
+        private static LoggerValidation _loggerValidation { get; set; } = new LoggerValidation();
         private static Validation _validation { get; set; } = new(_loggerValidation);
         private static LoggerOperation _loggerOperation { get; set; } = new();
         private static Operation _operation { get; set; } = new(_loggerOperation);
@@ -69,10 +69,13 @@ namespace ConsoleDelivery.Models.MainOperations.FilterData
 
             if(deliveries.Count > 0)
             {
+                string filePath = DataFilePath.FiltredDataFile ??
+                    DataFilePath.GetDefaultFilterDataFile();
+
                 FiltredData filtredData = new FiltredData(regionName,
                 firsDeliveryDateTime, deliveries);
 
-                await using (StreamWriter sw = new("C:\\Users\\chest\\OneDrive\\Рабочий стол\\Тестовое задание\\TechnicalSpecification\\ConsoleDelivery\\LogsFiles\\FiltredData.json"))
+                await using (StreamWriter sw = new(filePath))
                 {
                     await using (JsonTextWriter jsonWriter = new(sw))
                     {
@@ -81,8 +84,6 @@ namespace ConsoleDelivery.Models.MainOperations.FilterData
                         jsonSerializer.Serialize(sw, filtredData);
                     }
                 }
-
-                
             }
             else
             {

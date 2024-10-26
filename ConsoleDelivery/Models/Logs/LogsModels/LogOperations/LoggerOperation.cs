@@ -14,7 +14,10 @@ namespace ConsoleDelivery.Models.Logs.LogsModels.LogOperations
 
         public async static Task Log()
         {
-            await using (StreamWriter sw = new("C:\\Users\\chest\\OneDrive\\Рабочий стол\\Тестовое задание\\TechnicalSpecification\\ConsoleDelivery\\LogsFiles\\OperationsValid.json"))
+            string filePath = DataFilePath.LogsOperationsFile ??
+                DataFilePath.GetDefaultLogsOperationsLog();
+
+            await using (StreamWriter sw = new(filePath))
             {
                 await using (JsonTextWriter jsonWriter = new(sw))
                 {

@@ -9,35 +9,37 @@ namespace ConsoleDelivery.Models
 {
     public static class DataFilePath
     {
-        public static string? LogsValidationFile {
+        public static string? LogsValidationFile
+        {
             get
             {
-                return LogsValidationFile;
+                return _logsValidationFile;
             }
-            private set 
+
+            private set
             {
-                LogsValidationFile = _logsValidationFile ?? null;
+                _logsValidationFile = value ?? null;
             }
         }
         public static string? LogsOperationsFile { 
             get
             {
-                return LogsOperationsFile;
+                return _logsOperationFile;
             }
             private set 
             {
-                LogsOperationsFile = _logsOperationFile ?? null;
+                _logsOperationFile = value ?? null;
             } 
         }
         public static string? FiltredDataFile
         {
             get
             {
-                return FiltredDataFile;
+                return _filtredDataFile;
             }
             private set
             {
-                FiltredDataFile = _filtredDataFile ?? null; 
+                _filtredDataFile = value ?? null; 
             }
         }
 
@@ -56,31 +58,68 @@ namespace ConsoleDelivery.Models
             return Path.Combine(filePath);
         }
 
+        public static string GetDefaultLogsValid()
+        {
+            string directoryPath = Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName;
+            string[] filePath = { directoryPath, "LogsFiles", "LogsValid.json" };
+            return Path.Combine(filePath);
+        }
+
+        public static string GetDefaultLogsOperationsLog()
+        {
+            string directoryPath = Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName;
+            string[] filePath = { directoryPath, "LogsFiles", "OperationsLog.json" };
+            return Path.Combine(filePath);
+        }
+
         /// <summary>
         /// Устанавливает путь для файла с отфильтрованными данными
         /// </summary>
         public static void SetFilePathToFiltredData(string filePath)
         {
-            
+            string dataFiltredPath = string.Empty;
+            while (!CheckPath(filePath, out dataFiltredPath))
+            {
+                filePath = Console.ReadLine()!;
+            }
+            _filtredDataFile = dataFiltredPath;
+        }
+
+        public static void SetFilePathToValidationLogs(string filePath)
+        {
+            string dataValidationPath = string.Empty;
+            while (!CheckPath(filePath, out dataValidationPath))
+            {
+                filePath = Console.ReadLine()!;
+            }
+            _logsValidationFile = dataValidationPath;
+        }
+
+        public static void SetFilePathToOperationLogs(string filePath)
+        {
+            string dataOperationPath = string.Empty;
+            while (!CheckPath(filePath, out dataOperationPath))
+            {
+                filePath = Console.ReadLine()!;
+            }
+            _logsOperationFile = dataOperationPath;
         }
 
 
         public static bool CheckPath(string inputPath , out string path)
         {
-            bool isTrouble;
+            bool isExists;
             path = string.Empty;
-            try
+            if (File.Exists(inputPath))
             {
-                FileStream fileStream = new(inputPath,
-                    FileMode.Open);
-                path = inputPath;
-                isTrouble = true;
+                isExists = true;
+                path = Path.GetFullPath(inputPath);
             }
-            catch
+            else
             {
-                isTrouble = false;
+                isExists = false;
             }
-            return isTrouble;
+            return isExists;
         }
     }
 }

@@ -38,7 +38,8 @@ namespace ConsoleDelivery.Models
                     .HasOne(d => d.Region)
                     .WithMany(r => r.Deliveries)
                     .HasForeignKey(d => d.RegionId);
-                model.HasKey(r => r.Id);
+                model.HasKey(d => d.Id);
+                model.Property(d => d.Id).ValueGeneratedNever();
             });
         }
     }

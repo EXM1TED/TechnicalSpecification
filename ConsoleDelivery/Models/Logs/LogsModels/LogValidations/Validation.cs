@@ -15,7 +15,6 @@ namespace ConsoleDelivery.Models.Logs.LogsModels.LogValidations
         {
             LoggerValidation = loggerValidation;
         }
-
         /// <summary>
         /// Данный метод передает валидацию в список валидаций и делает логгирование списка валидации данных (2 в 1)
         /// </summary>
@@ -27,7 +26,7 @@ namespace ConsoleDelivery.Models.Logs.LogsModels.LogValidations
             Validate();
         }
 
-        private void Validate()
+        private static void Validate()
         {
             LoggerValidation.Log();
         }

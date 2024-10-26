@@ -36,7 +36,7 @@ namespace ConsoleDelivery.Models.MainOperations.AddData
                 while (Region.CheckRegion(regionName))
                 {
                     Console.Write("Такое имя региона уже есть. Пожалуйста, ввидете другое: ");
-                    regionName = Console.ReadLine();
+                    regionName = Console.ReadLine()!;
                 }
             }
 

@@ -9,7 +9,7 @@ namespace ConsoleDelivery.Models.Logs.LogsModels.LogOperations
 {
     public class Operation
     {
-        public static LoggerOperation LoggerOperation { get; set; } = new();
+        public LoggerOperation LoggerOperation { get; set; } = new();
         public static List<OperationArgs> ListOperations { get; set; } = [];
 
         public Operation(LoggerOperation loggerOperation)
@@ -28,7 +28,7 @@ namespace ConsoleDelivery.Models.Logs.LogsModels.LogOperations
              ValidateOperation();
         }
 
-        private async void ValidateOperation()
+        private static async void ValidateOperation()
         {
             await LoggerOperation.Log();
         }

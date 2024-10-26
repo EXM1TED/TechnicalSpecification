@@ -13,9 +13,11 @@ namespace ConsoleDelivery.Models.Logs.LogsModels.LogValidations
         public static IEnumerable<ValidationArgs> Logs { get; set; } = [];
 
 
-        public async void Log()
+        public static async void Log()
         {
-            await using (StreamWriter sw = new("C:\\Users\\chest\\OneDrive\\Рабочий стол\\Тестовое задание\\TechnicalSpecification\\ConsoleDelivery\\LogsFiles\\LogsValid.json"))
+            string filePath = DataFilePath.LogsValidationFile ?? DataFilePath.GetDefaultLogsValid();
+
+            await using (StreamWriter sw = new(filePath))
             {
                 await using (JsonTextWriter jsonWriter = new(sw))
                 {
