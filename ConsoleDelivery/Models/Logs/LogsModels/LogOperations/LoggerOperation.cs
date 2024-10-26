@@ -12,7 +12,7 @@ namespace ConsoleDelivery.Models.Logs.LogsModels.LogOperations
     {
         public static IEnumerable<OperationArgs> Logs { get; set; } = [];
 
-        public async static void Log()
+        public async static Task Log()
         {
             await using (StreamWriter sw = new("C:\\Users\\chest\\OneDrive\\Рабочий стол\\Тестовое задание\\TechnicalSpecification\\ConsoleDelivery\\LogsFiles\\OperationsValid.json"))
             {

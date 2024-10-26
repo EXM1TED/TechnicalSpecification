@@ -90,12 +90,16 @@ namespace ConsoleDelivery
 
                 default:
                     Console.WriteLine("Такой операции не существует");
-                    Console.WriteLine("Данные выгружены в Json формате");
                     Console.WriteLine();
                     break;
             }
             Console.WriteLine();
             Main();
+        }
+
+        private void LoadDataFiles()
+        {
+            
         }
     }
 }

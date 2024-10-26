@@ -25,12 +25,12 @@ namespace ConsoleDelivery.Models.Logs.LogsModels.LogOperations
         {
             ListOperations.Add(operationArgs);
             LoggerOperation.Logs = ListOperations;
-            ValidateOperation();
+             ValidateOperation();
         }
 
-        private void ValidateOperation()
+        private async void ValidateOperation()
         {
-            LoggerOperation.Log();
+            await LoggerOperation.Log();
         }
     }
 }
