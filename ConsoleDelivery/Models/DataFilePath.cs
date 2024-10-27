@@ -80,9 +80,11 @@ namespace ConsoleDelivery.Models
             string dataFiltredPath = string.Empty;
             while (!CheckPath(filePath, out dataFiltredPath))
             {
+                Console.Write("Данный путь не является действительным. Пожалйуста, проверьте указанный путь и повторите попытку: ");
                 filePath = Console.ReadLine()!;
             }
             _filtredDataFile = dataFiltredPath;
+            Config.SetPathDataFiltredToConfig(dataFiltredPath);
         }
 
         public static void SetFilePathToValidationLogs(string filePath)
@@ -93,6 +95,7 @@ namespace ConsoleDelivery.Models
                 filePath = Console.ReadLine()!;
             }
             _logsValidationFile = dataValidationPath;
+            Config.SetPathValidationLogToConfig(dataValidationPath);
         }
 
         public static void SetFilePathToOperationLogs(string filePath)
@@ -103,6 +106,7 @@ namespace ConsoleDelivery.Models
                 filePath = Console.ReadLine()!;
             }
             _logsOperationFile = dataOperationPath;
+            Config.SetPathOperationLogToConfig(dataOperationPath);
         }
 
 
