@@ -3,26 +3,28 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ConsoleDelivery.Models.ConfigModels;
 
-namespace ConsoleDelivery.Models
+namespace ConsoleDelivery.Models.ConfigModels
 {
     public delegate Task SetFilePath(string filePath);
     public static class Config
     {
         public static event SetFilePath? SetPath;
-        public static string? FiltredDataFile 
-        { 
-            get { return _filtredDataFile; } 
-            private set { _filtredDataFile = value ?? null; } 
+        public static string? FiltredDataFile
+        {
+            get { return _filtredDataFile; }
+            private set { _filtredDataFile = value ?? null; }
         }
-        public static string? ValidationLogsFile 
-        {   get { return _validationLogsFile; } 
-            private set { _validationLogsFile = value ?? null;} 
+        public static string? ValidationLogsFile
+        {
+            get { return _validationLogsFile; }
+            private set { _validationLogsFile = value ?? null; }
         }
-        public static string? OperationLogsFile 
-        { 
-            get { return _operationLogsFile; } 
-            private set { _operationLogsFile = value ?? null; } 
+        public static string? OperationLogsFile
+        {
+            get { return _operationLogsFile; }
+            private set { _operationLogsFile = value ?? null; }
         }
         public static Dictionary<string, string> ConfigInfo { get; set; } = new();
 

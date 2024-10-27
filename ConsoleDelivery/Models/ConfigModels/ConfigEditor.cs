@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
-namespace ConsoleDelivery.Models
+namespace ConsoleDelivery.Models.ConfigModels
 {
-    
+
     public class ConfigEditor
     {
         /// <summary>
@@ -17,11 +17,11 @@ namespace ConsoleDelivery.Models
         public async static Task SetPathFile(string filePath)
         {
             string directory = Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName;
-            string[] path = {directory, "Config.json" };
+            string[] path = { directory, "Config.json" };
             string fullPath = Path.Combine(path);
-            await using(StreamWriter streamWriter = new(fullPath))
+            await using (StreamWriter streamWriter = new(fullPath))
             {
-                await using(JsonTextWriter jsonWriter = new(streamWriter))
+                await using (JsonTextWriter jsonWriter = new(streamWriter))
                 {
                     JsonSerializer serializer = new();
                     serializer.NullValueHandling = NullValueHandling.Ignore;
