@@ -29,7 +29,6 @@ namespace ConsoleDelivery.Models.ConfigModels
             private set { _operationLogsFile = value ?? null; }
         }
         public static ConfigArgs ConfigArgs { get; set; } = new();
-        public static Dictionary<string, string>? ConfigInfo { get; set; } = new();
         public static ConfigArgs? CurrentConfigInfo { get; set; } = new();
 
         private static string? _filtredDataFile { get; set; }
@@ -60,14 +59,6 @@ namespace ConsoleDelivery.Models.ConfigModels
             SetPath?.Invoke(ConfigArgs);
         }
 
-        //public static Dictionary<string, string> GetConfigInfo()
-        //{
-        //    ConfigInfo.Add("FiltredDataFile", _filtredDataFile ?? null);
-        //    ConfigInfo.Add("ValidationLogsFile", _validationLogsFile ?? null);
-        //    ConfigInfo.Add("OperationLogsFile", _operationLogsFile ?? null);
-        //    return ConfigInfo;
-        //}
-
         public static void GetCurrentConfigInfo()
         {
             string directory = Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName;
@@ -82,20 +73,5 @@ namespace ConsoleDelivery.Models.ConfigModels
                 }
             }
         }
-
-        //public async static Task DeserializeConfig()
-        //{
-        //    string directory = Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName;
-        //    string[] path = { directory, "Config.json" };
-        //    string fullPath = Path.Combine(path);
-        //    using (StreamReader streamReader = new(fullPath))
-        //    {
-        //        await using(JsonTextReader reader = new(streamReader))
-        //        {
-        //            JsonSerializer serializer = new();
-        //            CurrentConfigInfo = serializer.Deserialize<Dictionary<string, string>?>(reader);
-        //        }
-        //    }
-        //}
     }
 }
