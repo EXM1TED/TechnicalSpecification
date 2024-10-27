@@ -1,12 +1,17 @@
 [
   {
-    "DateTimeOfValidation": "2024-10-27T12:57:09.3938808+03:00",
+    "DateTimeOfValidation": "2024-10-27T15:41:42.213736+03:00",
     "Operation": 6,
     "Discription": "Была выбрана операция: 3"
   },
   {
-    "DateTimeOfValidation": "2024-10-27T12:57:42.9353359+03:00",
+    "DateTimeOfValidation": "2024-10-27T15:42:00.474413+03:00",
     "Operation": 6,
-    "Discription": "Была выбрана операция: 3"
+    "Discription": "Была выбрана операция: 1"
+  },
+  {
+    "DateTimeOfValidation": "2024-10-27T15:42:03.1656522+03:00",
+    "Operation": 7,
+    "Discription": "Была выбрана операция 0"
   }
 ]

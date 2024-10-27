@@ -1,4 +1,5 @@
-﻿using ConsoleDelivery.Models.Logs.LogsModels.LogValidations;
+﻿using ConsoleDelivery.Models.ConfigModels;
+using ConsoleDelivery.Models.Logs.LogsModels.LogValidations;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -14,18 +15,18 @@ namespace ConsoleDelivery.Models.Logs.LogsModels.LogOperations
 
         public async static Task Log()
         {
-            string filePath = DataFilePath.LogsOperationsFile ??
+            string filePath = Config.CurrentConfigInfo?.ValidationLogsFile ??
                 DataFilePath.GetDefaultLogsOperationsLog();
-
+            //await Config.DeserializeConfig();
             await using (StreamWriter sw = new(filePath))
             {
                 await using (JsonTextWriter jsonWriter = new(sw))
                 {
-                    JsonSerializer jsonSerializer = new();
-                    jsonSerializer.Formatting = Formatting.Indented;
-                    jsonSerializer.NullValueHandling = NullValueHandling.Ignore;
-                    jsonSerializer.DefaultValueHandling = DefaultValueHandling.Ignore;
-                    jsonSerializer.Serialize(sw, Logs);
+                     JsonSerializer jsonSerializer = new();
+                     jsonSerializer.Formatting = Formatting.Indented;
+                     jsonSerializer.NullValueHandling = NullValueHandling.Ignore;
+                     jsonSerializer.DefaultValueHandling = DefaultValueHandling.Ignore;
+                     jsonSerializer.Serialize(sw, Logs);
                 }
             }
         }

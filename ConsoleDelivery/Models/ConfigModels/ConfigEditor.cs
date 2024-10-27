@@ -14,8 +14,9 @@ namespace ConsoleDelivery.Models.ConfigModels
         /// Данный метод получает данный из файла конфигурации
         /// </summary>
         /// <returns></returns>
-        public async static Task SetPathFile(string filePath)
+        public async static Task SetPathFile(ConfigArgs configArgs)
         {
+            
             string directory = Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName;
             string[] path = { directory, "Config.json" };
             string fullPath = Path.Combine(path);
@@ -24,9 +25,8 @@ namespace ConsoleDelivery.Models.ConfigModels
                 await using (JsonTextWriter jsonWriter = new(streamWriter))
                 {
                     JsonSerializer serializer = new();
-                    serializer.NullValueHandling = NullValueHandling.Ignore;
                     serializer.Formatting = Formatting.Indented;
-                    serializer.Serialize(jsonWriter, Config.GetConfigInfo());
+                    serializer.Serialize(jsonWriter, configArgs);
                 }
             }
         }

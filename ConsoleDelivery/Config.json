@@ -1,5 +1,5 @@
 {
-  "FiltredDataFile": "C:\\Users\\chest\\OneDrive\\Рабочий стол\\file.json",
+  "FiltredDataFile": null,
   "ValidationLogsFile": null,
-  "OperationLogsFile": null
+  "OperationLogsFile": "C:\\Users\\chest\\OneDrive\\Рабочий стол\\valid.json"
 }

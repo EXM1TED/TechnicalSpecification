@@ -11,6 +11,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using ConsoleDelivery.Models.ConfigModels;
 using ConsoleDelivery.Models;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace ConsoleDelivery.Models.MainOperations.FilterData
 {
@@ -69,15 +70,14 @@ namespace ConsoleDelivery.Models.MainOperations.FilterData
                     .ToList();
             }
 
-            if(deliveries.Count > 0)
+            if (deliveries.Count > 0)
             {
-                string filePath = DataFilePath.FiltredDataFile ??
-                    DataFilePath.GetDefaultFilterDataFile();
-
+                string configFilePathValue = Config.CurrentConfigInfo?.FiltredDataFile
+                    ?? DataFilePath.GetDefaultFilterDataFile();
                 FiltredData filtredData = new FiltredData(regionName,
                 firsDeliveryDateTime, deliveries);
 
-                await using (StreamWriter sw = new(filePath))
+                await using (StreamWriter sw = new(configFilePathValue))
                 {
                     await using (JsonTextWriter jsonWriter = new(sw))
                     {
@@ -91,7 +91,7 @@ namespace ConsoleDelivery.Models.MainOperations.FilterData
             {
                 Console.WriteLine("Таких данных нет");
             }
-
         }
     }
 }
+

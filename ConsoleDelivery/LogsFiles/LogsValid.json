@@ -1,14 +1,20 @@
 [
   {
-    "DateTimeOfValidation": "2024-10-27T12:57:09.2554512+03:00",
+    "DateTimeOfValidation": "2024-10-27T15:41:42.0263197+03:00",
     "Operation": 6,
     "Status": "OK",
     "Discription": "Операция была выбрана без ошибок"
   },
   {
-    "DateTimeOfValidation": "2024-10-27T12:57:42.9334679+03:00",
+    "DateTimeOfValidation": "2024-10-27T15:42:00.4723845+03:00",
     "Operation": 6,
     "Status": "OK",
     "Discription": "Операция была выбрана без ошибок"
+  },
+  {
+    "DateTimeOfValidation": "2024-10-27T15:42:04.9380822+03:00",
+    "Operation": 1,
+    "Status": "Error",
+    "Discription": "Введеный Id доставки был ниже нуля: -4"
   }
 ]

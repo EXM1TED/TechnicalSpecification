@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using ConsoleDelivery.Models.ConfigModels;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +16,9 @@ namespace ConsoleDelivery.Models.Logs.LogsModels.LogValidations
 
         public static async void Log()
         {
-            string filePath = DataFilePath.LogsValidationFile ?? DataFilePath.GetDefaultLogsValid();
+            Config.GetCurrentConfigInfo();
+            string filePath = Config.CurrentConfigInfo?.ValidationLogsFile
+                ?? DataFilePath.GetDefaultLogsValid();
 
             await using (StreamWriter sw = new(filePath))
             {
